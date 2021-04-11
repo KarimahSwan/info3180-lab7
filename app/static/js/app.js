@@ -44,6 +44,41 @@ app.component('app-footer', {
     }
 });
 
+// app.component('upload-form', {
+//     name:'UploadForm',
+//     template: `
+//     <form @submit.prevent="uploadPhoto" method="post">
+//         {{ form.csrf_token }}
+
+//         <div class="form-group">
+//             {{ form.description.label(class="title") }} <p>Please enter a description</p>
+//             {{ form.description }}
+//         </div>
+
+//         <div class="form-group">
+//             {{ form.image.label(class="title") }} <p>Please upload an image</p>
+//             {{ form.image }}
+//         </div>
+
+//         <button type="submit" name="submit" class="btn btn-primary">Upload Image</button>
+//     </form>
+//     `
+//     ,
+//     fetch("/api/upload", {
+//         method: 'POST'
+//     })    
+//         .then(function (response) {        
+//             return response.json();    
+//         })    
+//         .then(function (jsonResponse) {        
+//             // display a success message        
+//             console.log(jsonResponse);    
+//         })    
+//         .catch(function (error) {        
+//             console.log(error);    
+//         });
+// });
+
 const Home = {
     name: 'Home',
     template: `
