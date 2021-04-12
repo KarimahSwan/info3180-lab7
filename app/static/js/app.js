@@ -48,30 +48,27 @@ const UploadForm = {
     name:'UploadForm',
     template: `
     <h1>Upload Form</h1>
-    <form id="uploadForm" enctype="multiple/form-data" @submit.prevent="uploadPhoto" method="post">
-
-        <div class="form-group">
-            {{ form.description.label(class="title") }} <p>Please enter a description</p>
-            {{ form.description }}
-        </div>
-
-        <div class="form-group">
-            {{ form.image.label(class="title") }} <p>Please upload an image</p>
-            {{ form.image }}
-        </div>
-
-        <button type="submit" name="submit" class="btn btn-primary">Upload Image</button>
-    </form>
+    <div>
+        <form id="uploadForm" enctype="multiple/form-data" @submit.prevent="uploadPhoto" method="post">
+            <div class="form-group">
+                <label for="decription">Description</label>
+                <textarea class="form-control" name="description"></textarea>
+                <br>
+                <label for="image">Photo Upload</label>
+                <input type="file" name="image" class="form-control">
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
     `,
     data(){
         return{}
     },
     methods:{
         uploadPhoto(){
-            let uploadForm=document.getElementById('uploadForm')
-            let form_data=new FormData(uploadForm)
-
-            fetch("/api/upload", {
+            let uploadForm=document.getElementById('uploadForm');
+            let form_data=new FormData(uploadForm);
+            fetch('/api/upload', {
                 method: 'POST',
                 body:form_data,
                 headers:{
@@ -84,14 +81,15 @@ const UploadForm = {
             })    
             .then(function (jsonResponse) {        
                 // display a success message        
-                console.log(jsonResponse);    
+                console.log(jsonResponse);   
+                //return (<AlertMessageBox type={"success"} data={"Update succesfully"} />) 
             })    
             .catch(function (error) {        
                 console.log(error);    
             })
         }
     }
-});
+};
 
 const Home = {
     name: 'Home',
@@ -121,7 +119,7 @@ const NotFound = {
 // Define Routes
 const routes = [
     { path: "/", component: Home },
-    { path: "/upload", component: UploadForm},
+    { path: "/upload", component: UploadForm}, 
     // Put other routes here
 
     // This is a catch all route in case none of the above matches
