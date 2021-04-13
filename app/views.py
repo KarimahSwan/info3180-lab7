@@ -9,6 +9,8 @@ from app import app
 from flask import render_template, request
 from .forms import UploadForm
 from flask import jsonify
+from werkzeug.utils import secure_filename
+import os
 
 ###
 # Routing for your application.
@@ -41,11 +43,27 @@ def upload():
             filename=secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            return jsonify(data= {"message": "File Upload Successful", 
-                                  "filename": filename,
-                                  "description": description
-                                 }, message="Success")
-    return jsonify({"errors": [{},{}]}, errors=form_errors)
+            data={
+                "message": "File Upload Successful", 
+                "filename": filename,
+                "description": description
+            }
+            return jsonify(data=data)
+    return jsonify(form_errors(form))
+
+def get_uploaded_file():
+    rootdir = os.getcwd()
+    upload_files = []
+    for subdir, dirs, files in os.walk(rootdir + '/uploads'):
+        for file in files:
+            upload_files.append(file)
+    upload_files.pop(0)     
+    return upload_files
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    root_dir = os.getcwd()
+    return send_from_directory(os.path.join(root_dir, app.config['UPLOAD_FOLDER']), filename)
 
 
 # Here we define a function to collect form errors from Flask-WTF
